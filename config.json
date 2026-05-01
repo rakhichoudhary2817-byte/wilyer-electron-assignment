@@ -1,0 +1,27 @@
+{
+  "zones": [
+    {
+      "x": 0,
+      "y": 0,
+      "w": 1,
+      "h": 1,
+      "sequence": [
+        {
+          "type": "image",
+          "src": "img1.jpg",
+          "duration": 2
+        },
+        {
+          "type": "video",
+          "src": "video1.mp4",
+          "duration": 5
+        },
+        {
+          "type": "web",
+          "src": "https://example.com",
+          "duration": 5
+        }
+      ]
+    }
+  ]
+}

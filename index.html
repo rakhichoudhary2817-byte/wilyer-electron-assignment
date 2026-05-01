@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wilyer App</title>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+    }
+
+    .zone {
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+
+<script>
+  window.api.receiveData((data) => {
+    const zones = data.zones;
+
+    zones.forEach(zone => {
+      const div = document.createElement("div");
+      div.className = "zone";
+
+      div.style.left = (zone.x * window.innerWidth) + "px";
+      div.style.top = (zone.y * window.innerHeight) + "px";
+      div.style.width = (zone.w * window.innerWidth) + "px";
+      div.style.height = (zone.h * window.innerHeight) + "px";
+
+      document.body.appendChild(div);
+
+      let index = 0;
+
+      function playSequence() {
+        const item = zone.sequence[index];
+        div.innerHTML = "";
+
+        // IMAGE
+        if (item.type === "image") {
+          const img = document.createElement("img");
+          img.src = item.src;
+          img.style.width = "100%";
+          img.style.height = "100%";
+          div.appendChild(img);
+        }
+
+        // VIDEO
+        else if (item.type === "video") {
+          const video = document.createElement("video");
+          video.src = item.src;
+          video.autoplay = true;
+          video.muted = true;
+          video.style.width = "100%";
+          video.style.height = "100%";
+          video.style.objectFit = "cover";
+          div.appendChild(video);
+        }
+        // WEB
+        else if (item.type === "web") {
+            const webview = document.createElement("webview");
+            webview.src = item.src;
+            webview.style.width = "100%";
+            webview.style.height = "100%";
+            div.appendChild(webview);
+        }
+
+        setTimeout(() => {
+          index = (index + 1) % zone.sequence.length;
+          playSequence();
+        }, item.duration * 1000);
+      }
+
+      playSequence();
+    });
+  });
+</script>
+
+</body>
+</html>
